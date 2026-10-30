@@ -1,0 +1,48 @@
+HTML
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <title>Updating System...</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            text-align: center; 
+            padding-top: 100px; 
+            background: #f4f6f9; 
+        }
+        .box { 
+            background: white; 
+            padding: 40px; 
+            border-radius: 8px; 
+            display: inline-block; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+            max-width: 400px;
+        }
+        h3 { color: #333; }
+        p { color: #666; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h3>පද්ධතිය යාවත්කාලීන කරමින් පවතී...</h3>
+        <p>කරුණාකර මොහොතක් රැඳී සිටින්න, ඔබව නැවත ඇතුල්වීම (Login) වෙත යොමු කරමින් පවතී.</p>
+    </div>
+
+    <script>
+        // 1. LocalStorage සහ SessionStorage ඉවත් කිරීම
+        localStorage.clear();
+        sessionStorage.clear();
+        
+        // 2. සියලු කුකීස් (Cookies) ඉවත් කිරීම
+        document.cookie.split(";").forEach(function(c) { 
+            document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
+        });
+
+        // 3. තත්පර 2කට පසු upto.lk ලොගින් පිටුවට යැවීම (Cache නොවීමට timestamp එකක් සමඟ)
+        setTimeout(function() {
+            window.location.href = 'https://upto.lk/login?v=' + new Date().getTime();
+        }, 2000);
+    </script>
+</body>
+</html>
