@@ -1,48 +1,90 @@
-HTML
 <!DOCTYPE html>
 <html lang="si">
 <head>
     <meta charset="UTF-8">
-    <title>Updating System...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>පද්ධතිය යාවත්කාලීන කරමින් පවතී...</title>
     <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            text-align: center; 
-            padding-top: 100px; 
-            background: #f4f6f9; 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
         }
-        .box { 
-            background: white; 
-            padding: 40px; 
-            border-radius: 8px; 
-            display: inline-block; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
-            max-width: 400px;
+        .container {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            max-width: 420px;
+            width: 90%;
         }
-        h3 { color: #333; }
-        p { color: #666; font-size: 14px; }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        h3 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-size: 20px;
+        }
+        p {
+            color: #7f8c8d;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .success-msg {
+            color: #27ae60;
+            font-weight: bold;
+            display: none;
+            margin-top: 15px;
+        }
     </style>
 </head>
 <body>
-    <div class="box">
-        <h3>Cash ඉවත් කරමින් කරමින් පවතී...</h3>
-        <p>කරුණාකර මොහොතක් රැඳී සිටින්න, ඔබව නැවත ඇතුල්වීම (Login) වෙත යොමු කරමින් පවතී.</p>
+
+    <div class="container">
+        <div class="spinner" id="loadingSpinner"></div>
+        <h3>පද්ධතිය යාවත්කාලීන කරමින් පවතී...</h3>
+        <p>කරුණාකර මොහොතක් රැඳී සිටින්න. ඔබගේ බ්‍රව්සර් දත්ත පිරිසිදු කරමින් පවතී.</p>
+        <div class="success-msg" id="successText">දත්ත ඉවත් කිරීම සාර්ථකයි! ලොගින් පිටුවට යමින් පවතී...</div>
     </div>
 
     <script>
-        // 1. LocalStorage සහ SessionStorage ඉවත් කිරීම
+        // 1. LocalStorage සහ SessionStorage සම්පූර්ණයෙන්ම ඉවත් කිරීම
         localStorage.clear();
         sessionStorage.clear();
-        
-        // 2. සියලු කුකීස් (Cookies) ඉවත් කිරීම
+
+        // 2. බ්‍රව්සරයේ ගබඩා වී ඇති සියලුම කුකීස් (Cookies) ඉවත් කිරීම
         document.cookie.split(";").forEach(function(c) { 
             document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
         });
 
-        // 3. තත්පර 2කට පසු upto.lk ලොගින් පිටුවට යැවීම (Cache නොවීමට timestamp එකක් සමඟ)
+        // 3. UI එකේ පණිවුඩය වෙනස් කර තත්පර 2කට පසු upto.lk ලොගින් පිටුවට යැවීම
         setTimeout(function() {
-            window.location.href = 'https://upto.lk/login?v=' + new Date().getTime();
-        }, 2000);
+            document.getElementById('loadingSpinner').style.display = 'none';
+            document.getElementById('successText').style.display = 'block';
+            
+            setTimeout(function() {
+                // කෑෂ් නොවී අලුත්ම ඩේටා ලෝඩ් වීමට timestamp එකක් සමඟ ලොගින් පිටුවට යොමු කරයි
+                window.location.href = 'https://upto.lk/login?v=' + new Date().getTime();
+            }, 1000);
+        }, 1500);
     </script>
+
 </body>
 </html>
